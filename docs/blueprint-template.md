@@ -16,7 +16,7 @@
 
 ## 2. Group Performance (Auto-Verified)
 - [VALIDATE_LOGS_FINAL_SCORE]: 100/100
-- [TOTAL_TRACES_COUNT]: _(chụp từ Langfuse UI → Traces sau khi chạy load_test.py)_
+- [TOTAL_TRACES_COUNT]: 10
 - [PII_LEAKS_FOUND]: 0
 
 ---
@@ -24,14 +24,13 @@
 ## 3. Technical Evidence (Group)
 
 ### 3.1 Logging & Tracing
-- [TOTAL_TRACES_COUNT] : 
-- [EVIDENCE_CORRELATION_ID_SCREENSHOT]: ảnh trong file docs/screenshots
-- [EVIDENCE_PII_REDACTION_SCREENSHOT]: _(chụp màn hình log cho thấy `[REDACTED_EMAIL]` hoặc `[REDACTED_PHONE_VN]` thay vì giá trị thật)_
-- [EVIDENCE_TRACE_WATERFALL_SCREENSHOT]: _(chụp màn hình Langfuse UI → một trace → tab Timeline/Waterfall)_
+- [EVIDENCE_CORRELATION_ID_SCREENSHOT]: docs/Screenshots/correlation_id.png
+- [EVIDENCE_PII_REDACTION_SCREENSHOT]: docs/Screenshots/pii_redaction.png
+- [EVIDENCE_TRACE_WATERFALL_SCREENSHOT]: docs/Screenshots/trace_waterfall.png
 - [TRACE_WATERFALL_EXPLANATION]: The `agent-run` trace contains two child spans: `rag-retrieve` (vector store lookup) and `llm-generate` (generation, marked as type=generation). During a `rag_slow` incident, the `rag-retrieve` span expands to ~2500ms, making it immediately visible which step caused the latency spike without reading any log lines.
 
 ### 3.2 Dashboard & SLOs
-- [DASHBOARD_6_PANELS_SCREENSHOT]: _(chụp màn hình dashboard 6 panels từ Langfuse hoặc Grafana)_
+- [DASHBOARD_6_PANELS_SCREENSHOT]: docs/Screenshots/dashboard.png
 - [SLO_TABLE]:
 
 | SLI | Target | Window | Current Value |
@@ -41,7 +40,7 @@
 | Cost Budget | &lt; $2.5/day | 1d | $0.0646 |
 
 ### 3.3 Alerts & Runbook
-- [ALERT_RULES_SCREENSHOT]: _(chụp màn hình config/alert_rules.yaml trong editor)_
+- [ALERT_RULES_SCREENSHOT]: docs/Screenshots/alert_rules.png
 - [SAMPLE_RUNBOOK_LINK]: docs/alerts.md#1-high-latency-p95
 
 ---
