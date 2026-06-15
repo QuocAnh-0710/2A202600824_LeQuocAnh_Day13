@@ -25,7 +25,7 @@ class LabAgent:
         self.model = model
         self.llm = FakeLLM(model=model)
 
-    @observe()
+    @observe(name="agent-run", capture_input=False, capture_output=False)
     def run(self, user_id: str, feature: str, session_id: str, message: str) -> AgentResult:
         started = time.perf_counter()
         docs = retrieve(message)
@@ -36,12 +36,16 @@ class LabAgent:
         cost_usd = self._estimate_cost(response.usage.input_tokens, response.usage.output_tokens)
 
         langfuse_context.update_current_trace(
+            name="chat-response",
             user_id=hash_user_id(user_id),
             session_id=session_id,
             tags=["lab", feature, self.model],
         )
+        # Explicitly set input/output — only the scrubbed message, not all function args
         langfuse_context.update_current_observation(
-            metadata={"doc_count": len(docs), "query_preview": summarize_text(message)},
+            input={"message": summarize_text(message)},
+            output={"answer": summarize_text(response.text), "quality_score": quality_score},
+            metadata={"doc_count": len(docs), "feature": feature, "model": self.model},
             usage_details={"input": response.usage.input_tokens, "output": response.usage.output_tokens},
         )
 
